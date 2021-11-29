@@ -1,0 +1,11 @@
+
+arm-none-eabi-as -o <>.o -g <>.s #create the object file tst.o
+arm-none-eabi-ld -o <> <>.o #create the executable tst
+
+qemu-arm -singlestep -g 1234 <> &
+ps -e | grep qemu
+
+
+gdb
+file <file name>
+target remote localhost:1234
