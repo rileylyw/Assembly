@@ -12,7 +12,7 @@ then
     then
         if qemu-arm -singlestep -g "$2" "$1" &
         then
-            if arm-none-eabi-gdb
+            if arm-none-eabi-gdb -iex "file $1" -iex "target remote localhost:$2" -q
             then
                 echo success
             fi
