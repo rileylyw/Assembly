@@ -1,7 +1,7 @@
 .section .text
 .align 2
 .global _start
-_start: mov r0,#2147483647
+_start: mov r0,#1
         mov r1,#2
         mov r2,#3
         mov r3,#4

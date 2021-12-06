@@ -1,3 +1,11 @@
+module use /eda/cadence/modules
+module load course/COMSM1302
+
+echo ’module use /eda/cadence/modules’ >> ~/.bashrc
+echo ’module load course/COMSM1302’ >> ~/.bashrc
+
+source ~/.bashrc
+
 arm-none-eabi-as -o <>.o -g <>.s #create the object file tst.o
 arm-none-eabi-ld -o <> <>.o #create the executable tst
 
