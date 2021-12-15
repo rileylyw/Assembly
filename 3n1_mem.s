@@ -47,7 +47,7 @@ _end:   b _end
 
 _n: @ stores the address where the constant 2 is loaded in memory inside _n (pointer)
 .word 20
-@_data:
-@.skip 100
+_data:
+.skip 100
 _repetition_number:
 .word 2
