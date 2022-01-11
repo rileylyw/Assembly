@@ -1,8 +1,8 @@
 .section .text
 .align 2
 .global _start
-_start: mov r0,#75
-        mov r1,#60
+_start: mov r0,#45
+        mov r1,#10
 _loop:  cmp r0,r1
         subgt r0,r0,r1
         sublt r1,r1,r0

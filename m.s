@@ -2,53 +2,40 @@
 .align 2
 .global _start
 
-@r0 = result
-@r1 = a
-@r2 = b
-@r3 = c
-@r4 = d
-@r5 = a*d
-@r6 = b*c
-@r7 = overflow flag
 @r8 = accuracy
 
 _start:
-@mov r1, #0xffffffff
-@mov r1, #5
-@umull r3, r4, r1, r2
-@ a b
-@ c d == a * d - b * c
-mov r1, #7
-cmp r1, #0
-mov r2, #2
-mov r3, #4
-mov r4, #5
-mov r7, #0
+@ r1 = a -> a * d
+@ r2 = b
+@ r3 = c
+@ r4 = d
 
-@ a * d
-umull r5, r7, r1, r4
-cmp r7, #0
-movne r8, #-1   @calculation result is inaccurate
-
-@reset flag
-mov r5, #0
-
-@ b * c
-umull r6, r7, r2, r3
-cmp r7, #0
-movne r8, #-1
-
-@ a * d - b * c
-sub r1, r2
-
-@assume success
+and r5, #0
 mov r8, #1
 
-_start: mov r0,#75
-        mov r1,#60
-_loop:  cmp r0,r1
-        subgt r0,r0,r1
-        sublt r1,r1,r0
-        bne _loop
-        addeq r2,r0
+mov r1, #0x80000000
+mov r2, #0x5
+mov r3, #2
+mov r4, #0x1
+
+@ a * d
+umull r1, r5, r1, r4
+cmp r5, #0
+movgt r8, #-1   @calculation result is inaccurate
+
+@reset flag
+and r5, #0
+
+@ b * c
+umull r2, r5, r2, r3 @ r2*r3, result stored in r2 (bits 0-31), r5 (bits 32-63)
+cmp r5, #0 @ if r5 has any value, result has overflow
+movgt r8, #-1
+
+@ a * d - b * c  lowest possible number - 8 = overflow
+subs r0, r1, r2
+movvs r8, #-1
+
+@assume success
+@ mov r8, #1
+
 _end:   b _end

@@ -1,9 +1,10 @@
 .section .text
 .align 2
 .global _start
+
 _start: ldr r0, = _n @loads the address which is stored in _n inside the r0 register (copying the pointer)
         ldr r1, [r0] @loads the value present in the memory location addressed by the r0 register. (derefercing the poiniter)
-        ldr r2, = _repetition_number 
+        ldr r2, = _repetition_number
         ldr r2, [r2]
         mov r3, #0
         mov r4, #0
