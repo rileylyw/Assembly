@@ -2,36 +2,34 @@
 .align 2
 .global _start
 
-@ r0: pointer to array
-@ r1: array[0]: 20
+_start: ldr r10, =array
+        ldr r11, =stop
+        mov r12, #0
 
-_start: ldr sp, =array @ 0x00018028
-        ldr r1, [sp]
-        rrx r3, r1
-        bl _loop @ lr: next position
+_fill:  cmp r10, r11
+        beq _select
+        add r12, r12, #3
+        str r12, [r10]
+        add r10, r10, #4
+        b _fill
 
-_loop:  tst r1, #1 @ update n and z flags, if z=1: even, z=0: odd
-        lsreq r1, #1
-        addne r1, r1, r1, lsl #1 @ 2n+n
-        addne r1, r1, #1 @ 3n+1
-        stmfd sp!, {r1} @ result added to array
-        ldmfd sp!, {r2} @ r2 store latest value
-        
-
-
-        @ bne _loop
-
-@ _check_result:  ldmfd sp!, {r2}
+_select:ldr r10, =array
+        ldr r13, [r10, #20]!
 
 
 _end:   b _end
 
-
 .section .data
-
 array:
-.word 20
-_data:
-.skip 100
-_repetition_number:
-.word 2
+.word 0,0,0,0,0,0,0,0,0,0
+stop:
+.word 0
+
+_start: mov r0, #0
+        mov lr, pc
+
+_start: mov r0, #0
+        cmp r0, #0
+        mov r1, #255
+        mov r2, #255
+        subs r1, r0, r2
